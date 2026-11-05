@@ -1,0 +1,27 @@
+          python -m pip install --upgrade pip
+          python -m pip install nuitka ordered-set zstandard
+
+      - name: Compilar programa
+      - name: Verificar arquivo Python
+        run: |
+          python -m nuitka --onefile --windows-console-mode=disable --enable-plugin=tk-inter --assume-yes-for-downloads --output-filename="Minecraft Arcade Demo Offline.exe" main.py
+          dir
+          python -m py_compile main.py
+
+      - name: Enviar EXE para download
+      - name: Compilar programa para Windows
+        run: |
+          python -m nuitka --onefile --windows-console-mode=disable --enable-plugin=tk-inter --assume-yes-for-downloads --output-dir=dist --output-filename="Minecraft Arcade Demo Offline.exe" modo_demo.py
+
+      - name: Verificar executável
+        run: |
+          dir dist
+
+      - name: Disponibilizar executável
+        uses: actions/upload-artifact@v4
+        with:
+          name: Programa-do-trabalho-sJOy
+          path: Programa-do-trabalho-sJOy.exe
+
+          path: dist/Programa-do-trabalho-sJOy.exe
+          if-no-files-found: error
