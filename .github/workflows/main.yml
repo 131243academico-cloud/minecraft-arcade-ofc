@@ -16,24 +16,25 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Instalar Nuitka e Dependências
+      - name: Instalar Nuitka e Dependências (rcom e mcrcon)
         run: |
           python -m pip install --upgrade pip
-          python -m pip install nuitka ordered-set zstandard pytoml rcom
+          # Incluído rcom de volta para evitar o erro de importação no main.py
+          python -m pip install nuitka ordered-set zstandard pytoml rcom mcrcon
 
       - name: Verificar arquivo Python
         run: |
           python -m py_compile main.py
 
-      - name: Compilar programa para Windows
+      - name: Compilar programa com o Nuitka
         run: |
           python -m nuitka --onefile --windows-console-mode=disable --enable-plugin=tk-inter --assume-yes-for-downloads --output-dir=dist --output-filename="Programa do jogo da velha sem joy.exe" main.py
 
-      - name: Verificar executável
+      - name: Verificar executável gerado
         run: |
           dir dist
 
-      - name: Disponibilizar executável
+      - name: Disponibilizar executável para Download
         uses: actions/upload-artifact@v4
         with:
           name: Jogo-da-Velha-Windows
