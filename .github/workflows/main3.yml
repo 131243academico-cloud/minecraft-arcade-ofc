@@ -17,11 +17,17 @@ jobs:
           python-version: "3.12"
 
       - name: Instalar Ferramentas do Sistema (AppImageTool)
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3-tk libfuse2 wget
-          # Baixa o appimagetool oficial corrigindo o redirecionamento com -L
-          sudo wget -L -O /usr/local/bin/appimagetool https://github.com
+          sudo apt-get install -y python3-tk libfuse2
+          
+          # Baixa o binário oficial de forma segura usando a ferramenta nativa do GitHub
+          gh release download continuous --repo AppImage/AppImageKit --pattern "appimagetool-x86_64.AppImage" --output appimagetool
+          
+          # Move para a pasta do sistema e dá permissão de execução
+          sudo mv appimagetool /usr/local/bin/appimagetool
           sudo chmod +x /usr/local/bin/appimagetool
 
       - name: Instalar Nuitka e Dependências do Python
