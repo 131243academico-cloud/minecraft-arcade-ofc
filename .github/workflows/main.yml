@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Baixar o projeto
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
 
       - name: Instalar Python
         uses: actions/setup-python@v5
@@ -23,11 +23,11 @@ jobs:
 
       - name: Verificar arquivo Python
         run: |
-          python -m py_compile modo_demo.py
+          python -m py_compile main.py
 
       - name: Compilar programa para Windows
         run: |
-          python -m nuitka --onefile --windows-console-mode=disable --enable-plugin=tk-inter --assume-yes-for-downloads --output-dir=dist --output-filename="Programa do jogo da velha sem joy.exe" modo_demo.py
+          python -m nuitka --onefile --windows-console-mode=disable --enable-plugin=tk-inter --assume-yes-for-downloads --output-dir=dist --output-filename="Programa do jogo da velha sem joy.exe" main.py
 
       - name: Verificar executável
         run: |
