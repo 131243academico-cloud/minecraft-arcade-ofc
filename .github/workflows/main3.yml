@@ -19,9 +19,9 @@ jobs:
       - name: Instalar Ferramentas do Sistema (AppImageTool)
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3-tk
-          # Baixa o appimagetool oficial para empacotar o AppImage
-          sudo wget -O /usr/local/bin/appimagetool https://github.com
+          sudo apt-get install -y python3-tk libfuse2 wget
+          # Baixa o appimagetool oficial corrigindo o redirecionamento com -L
+          sudo wget -L -O /usr/local/bin/appimagetool https://github.com
           sudo chmod +x /usr/local/bin/appimagetool
 
       - name: Instalar Nuitka e Dependências do Python
@@ -71,12 +71,12 @@ jobs:
 
       - name: Gerar Aplicativo AppImage Portátil
         run: |
-          # Junta tudo em um único executável portátil de Linux
-          ARCH=x86_64 /usr/local/bin/appimagetool AppDir Jogo_da_Velha_RCON-x86_64.AppImage
+          # Junta tudo em um único executável portátil de Linux com o nome final correto
+          ARCH=x86_64 /usr/local/bin/appimagetool AppDir Programa_do_jogo_da_velha_sem_joy-x86_64.AppImage
 
       - name: Disponibilizar AppImage para Download
         uses: actions/upload-artifact@v4
         with:
           name: Jogo-da-Velha-Linux-AppImage
-          path: Jogo_da_Velha_RCON-x86_64.AppImage
+          path: Programa_do_jogo_da_velha_sem_joy-x86_64.AppImage
           if-no-files-found: error
